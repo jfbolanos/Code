@@ -15,15 +15,19 @@ namespace EuroCallOption
             Random r = new Random(); ///this is the class used to generate random variables
             
             Console.WriteLine("Please Enter The Initial Asset Price:");
-            double X0 = Console.ReadLine();
+            double X0 = Convert.ToDouble(Console.ReadLine());
             Console.WriteLine("Please Enter The Time To Expiration:");
-            double T = Console.ReadLine();
+            double T = Convert.ToDouble(Console.ReadLine());
             Console.WriteLine("Please Enter mu:");
-            double mu = Console.ReadLine();
+            double mu = Convert.ToDouble(Console.ReadLine());
             Console.WriteLine("Please Enter sigma:");
-            double sigma = Console.ReadLine();
+            double sigma = Convert.ToDouble(Console.ReadLine());
             
-            Console.ReadLine();
+            Console.WriteLine(X0);
+            Console.WriteLine(T);
+            Console.WriteLine(mu);
+            Console.WriteLine(sigma);
+            Console.ReadKey();
         }
     }
 }
