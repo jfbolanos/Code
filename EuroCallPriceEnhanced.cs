@@ -32,7 +32,6 @@ namespace EuroCallOption
         {
             double[] UnderlyingPrice;
             double[] CallPrice;
-            double[] CallPrice2;
             Random r = new Random(); ///this is the class used to generate random variables
             Discretization disc = new Discretization();
             
@@ -52,25 +51,18 @@ namespace EuroCallOption
             double m = 400; ///Number of increments between t = 0 and t = T
             double delta = T / m; ///size of the increment
             CallPrice = new double[N]; ///now allocating the size of array based on the number of simulations
-            CallPrice2 = new double[N];
             double X;
-            double Y;
             double U1;
             double U2;
             double Z;
             double sum1 = 0;
             double sum2 = 0;
-            double sum3 = 0;
-            double sum4 = 0;
             double OptionPrice;
-            double OptionPrice2;
             double StandardError;
-            double StandardError2;
 
             for (int i = 0; i < N; i++)
             {
                 X = X0;
-                Y = X0;
 
                 for (int j = 0; j < m; j++)
                 {
@@ -78,42 +70,34 @@ namespace EuroCallOption
                     U1 = r.NextDouble();
                     U2 = r.NextDouble();
                     Z = Math.Sqrt(-2 * Math.Log(U1)) * Math.Cos(2 * Math.PI * U2);
-                    Y = disc.Euler(Y, mu, sigma, delta, Z);
-                    X = X + mu * X * delta + sigma * X * Math.Sqrt(delta) * Z;
+                    X = disc.Euler(X, mu, sigma, delta, Z);
                     
 
                 }
 
                 CallPrice[i] = Math.Max(0, X - K);
-                CallPrice2[i] = Math.Max(0, Y - K);
 
             }
 
             for (int a = 0; a < N; a++ )
             {
                 sum1 = sum1 + CallPrice[a];
-                sum3 = sum3 + CallPrice2[a];
 
             }
 
             //Calculate the average which represents the option price
             OptionPrice = sum1 / N;
-            OptionPrice2 = sum3 / N;
 
             for (int b = 0; b < N; b++)
             {
                 sum2 = sum2 + Math.Pow((CallPrice[b] - OptionPrice), 2);
-                sum4 = sum4 + Math.Pow((CallPrice2[b] - OptionPrice2), 2);
             }
 
-            StandardError = Math.Sqrt(sum2 / (N - 1));
-            StandardError2 = Math.Sqrt(sum4 / (N - 1));
+            StandardError = Math.Sqrt(sum2 / (N - 1)) / Math.Sqrt(N);
 
             Console.WriteLine("The Price of the Option is: " + OptionPrice);
             Console.WriteLine("The Standard Error of the Simulation is: " + StandardError);
 
-            Console.WriteLine("Class Architecture Option Price: " + OptionPrice2);
-            Console.WriteLine("Class Architecture Standard Error: " + StandardError2);
 
 
             Console.ReadKey();
