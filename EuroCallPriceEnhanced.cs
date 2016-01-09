@@ -52,7 +52,6 @@ namespace EuroCallOption
             int m = 400; ///Number of increments between t = 0 and t = T
             double delta = T / m; ///size of the increment
             CallPrice = new double[N]; ///now allocating the size of array based on the number of simulations
-            double X;
             double U1;
             double U2;
             double Z;
@@ -65,6 +64,7 @@ namespace EuroCallOption
             for (int i = 0; i < N; i++)
             {
                 chart.Series.Add(Convert.ToString(i));
+                chart.Series[Convert.ToString(i)].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
                 UnderlyingPrice[0] = X0;
                 chart.Series[Convert.ToString(i)].Points.AddXY(0, UnderlyingPrice[0]);
 
@@ -75,7 +75,7 @@ namespace EuroCallOption
                     U2 = r.NextDouble();
                     Z = Math.Sqrt(-2 * Math.Log(U1)) * Math.Cos(2 * Math.PI * U2);
                     UnderlyingPrice[j + 1] = disc.Euler(UnderlyingPrice[j], mu, sigma, delta, Z);
-                    chart.Series[Convert.ToString(i)].Points.AddXY(j + 1, UnderlyingPrice[j + 1]);
+                    chart.Series[Convert.ToString(i)].Points.AddXY(delta*(j + 1), UnderlyingPrice[j + 1]);
                     
 
                 }
