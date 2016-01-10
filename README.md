@@ -1,4 +1,4 @@
-# EuroCallEnhanced.cs
+# EuroCallPriceEnhanced.cs
 
 This code simulates the path of an underlying stock using Geometric Brownian motion. 
 Using this, the price of a European Call Option is calculated.
